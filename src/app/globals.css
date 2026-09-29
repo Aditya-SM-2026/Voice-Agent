@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #0c0f16;
+  --color-panel: #131722;
+  --color-line: #262d3d;
+  --color-mist: #9aa1b0;
+  --color-paper: #edebe4;
+  --color-glow: #f2c14e;
+  --color-danger: #e5695e;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: radial-gradient(1200px 500px at 50% -100px, #171c2a, var(--color-ink) 70%);
+  color: var(--color-paper);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-glow) 30%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-glow);
+  outline-offset: 2px;
+}
+
+/* Expanding rings around the orb while listening. */
+@keyframes ring-expand {
+  from {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1.75);
+    opacity: 0;
+  }
+}
+.animate-ring {
+  animation: ring-expand 1.6s ease-out infinite;
+}
+
+/* Gentle breathing of the orb while AJAI speaks. */
+@keyframes orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+.speaking-orb {
+  animation: orb-breathe 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ring,
+  .speaking-orb {
+    animation: none;
+  }
+}
+
+.scroll-panel::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll-panel::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 9999px;
+}

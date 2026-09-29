@@ -1,0 +1,38 @@
+{
+  "company": "AJAI",
+  "description": "AJAI is an enterprise AI-agent SaaS platform that helps companies build, deploy, integrate, and manage AI agents faster.",
+  "tagline": "Deploy intelligent AI agents. In days, not months.",
+  "useCases": [
+    "Customer support",
+    "Sales",
+    "HR",
+    "IT helpdesk",
+    "Finance",
+    "Lead qualification",
+    "Internal knowledge",
+    "Workflow automation",
+    "Voice agents"
+  ],
+  "pricing": [
+    { "plan": "Starter", "price": "$99/month" },
+    { "plan": "Growth", "price": "$499/month" },
+    { "plan": "Business", "price": "$1,999/month" },
+    { "plan": "Enterprise", "price": "Custom pricing" }
+  ],
+  "integrations": [
+    "Salesforce",
+    "HubSpot",
+    "Slack",
+    "Microsoft Teams",
+    "Zendesk",
+    "PostgreSQL",
+    "MongoDB",
+    "REST APIs"
+  ],
+  "freeTrial": "14 days",
+  "leadership": { "ceo": "Arjun Mehta", "cto": "Rohan Kapoor" },
+  "headquarters": "Bengaluru, India",
+  "employees": "Approximately 85",
+  "customers": "120+ businesses",
+  "support": "24/7 support for Enterprise customers."
+}
