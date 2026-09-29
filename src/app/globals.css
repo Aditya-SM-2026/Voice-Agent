@@ -56,9 +56,55 @@ body {
   animation: orb-breathe 1.2s ease-in-out infinite;
 }
 
+/* Voice bars shown while TTS is actually speaking a message. */
+.eq span {
+  display: block;
+  width: 2px;
+  height: 10px;
+  background: var(--color-glow);
+  border-radius: 1px;
+  transform-origin: bottom;
+  animation: eq-bounce 0.9s ease-in-out infinite;
+}
+.eq span:nth-child(2) {
+  height: 12px;
+  animation-delay: 0.15s;
+}
+.eq span:nth-child(3) {
+  height: 8px;
+  animation-delay: 0.3s;
+}
+@keyframes eq-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Blinking caret at the end of the AI reply while it streams in. */
+.caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 3px;
+  background: var(--color-glow);
+  vertical-align: -0.15em;
+  animation: caret-blink 1s steps(2, start) infinite;
+}
+@keyframes caret-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-ring,
-  .speaking-orb {
+  .speaking-orb,
+  .eq span,
+  .caret {
     animation: none;
   }
 }

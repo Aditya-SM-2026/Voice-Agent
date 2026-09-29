@@ -1,38 +1,54 @@
 {
-  "company": "AJAI",
-  "description": "AJAI is an enterprise AI-agent SaaS platform that helps companies build, deploy, integrate, and manage AI agents faster.",
-  "tagline": "Deploy intelligent AI agents. In days, not months.",
+  "company": "Aequitas AI",
+  "description": "Aequitas AI is an enterprise AI-agent platform and trust layer that helps companies design, deploy, and certify AI agents for high-stakes workflows.",
+  "tagline": "Build trusted AI agents. In weeks, not quarters.",
   "useCases": [
-    "Customer support",
-    "Sales",
-    "HR",
-    "IT helpdesk",
-    "Finance",
-    "Lead qualification",
-    "Internal knowledge",
-    "Workflow automation",
-    "Voice agents"
+    "Engineering automation",
+    "Test automation",
+    "Legal document review",
+    "Compliance auditing",
+    "HR decision support",
+    "Credit & lending decisions",
+    "Healthcare triage support",
+    "Content moderation",
+    "Internal knowledge agents"
   ],
   "pricing": [
-    { "plan": "Starter", "price": "$99/month" },
-    { "plan": "Growth", "price": "$499/month" },
-    { "plan": "Business", "price": "$1,999/month" },
-    { "plan": "Enterprise", "price": "Custom pricing" }
+    {
+      "plan": "Starter",
+      "price": "$149/month"
+    },
+    {
+      "plan": "Growth",
+      "price": "$699/month"
+    },
+    {
+      "plan": "Business",
+      "price": "$2,499/month"
+    },
+    {
+      "plan": "Enterprise",
+      "price": "Custom pricing"
+    }
   ],
   "integrations": [
-    "Salesforce",
-    "HubSpot",
+    "GitHub",
+    "GitLab",
+    "Jira",
     "Slack",
     "Microsoft Teams",
-    "Zendesk",
+    "Salesforce",
     "PostgreSQL",
     "MongoDB",
     "REST APIs"
   ],
-  "freeTrial": "14 days",
-  "leadership": { "ceo": "Arjun Mehta", "cto": "Rohan Kapoor" },
-  "headquarters": "Bengaluru, India",
-  "employees": "Approximately 85",
-  "customers": "120+ businesses",
+  "freeTrial": "21 days",
+  "leadership": {
+    "ceo": "Karan Reddy",
+    "cto": "Sneha Iyer"
+  },
+  "headquarters": "Hyderabad, Telangana, India",
+  "employees": "Approximately 12",
+  "customers": "35+ businesses",
   "support": "24/7 support for Enterprise customers."
 }

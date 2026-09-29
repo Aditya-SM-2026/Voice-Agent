@@ -16,14 +16,24 @@ const DOTS: Record<AgentStatus, string> = {
   error: "bg-danger",
 };
 
+const CHIPS: Record<AgentStatus, string> = {
+  idle: "border-line text-mist",
+  listening: "border-glow/40 text-glow",
+  thinking: "border-line text-paper",
+  speaking: "border-glow/40 text-glow",
+  error: "border-danger/40 text-danger",
+};
+
 export default function Status({ status, error }: { status: AgentStatus; error: string | null }) {
   return (
-    <div aria-live="polite" className="flex flex-col items-center gap-1.5">
-      <div className="flex items-center gap-2 text-sm text-mist">
-        <span className={`h-2 w-2 rounded-full ${DOTS[status]}`} />
+    <div aria-live="polite" className="flex flex-col items-center gap-2">
+      <div
+        className={`flex items-center gap-2 rounded-full border bg-panel/70 px-3.5 py-1.5 text-xs font-medium ${CHIPS[status]}`}
+      >
+        <span className={`h-1.5 w-1.5 rounded-full ${DOTS[status]}`} />
         <span>{LABELS[status]}</span>
       </div>
-      {error ? <p className="max-w-sm text-center text-sm leading-snug text-danger">{error}</p> : null}
+      {error ? <p className="max-w-xs text-center text-sm leading-snug text-danger">{error}</p> : null}
     </div>
   );
 }

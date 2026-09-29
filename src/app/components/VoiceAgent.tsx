@@ -416,6 +416,12 @@ export default function VoiceAgent() {
     handleUtterance(text);
   };
 
+  const clearConversation = () => {
+    if (busyRef.current) return;
+    setMessages([]);
+    setTimings(null);
+  };
+
   // ---------- UI ----------
 
   const micLabel =
@@ -432,64 +438,75 @@ export default function VoiceAgent() {
             ? "bg-danger/10 text-danger border border-danger/50"
             : "bg-panel text-mist border border-line hover:border-glow/40";
 
-  const fmt = (value: number | null) => (value === null ? "—" : `${value}ms`);
+const fmt = (value: number | null) => (value === null ? "—" : `${value}ms`);
 
   return (
-    <main className="mx-auto flex w-full max-w-xl flex-1 flex-col gap-8 px-5 py-14">
-      <header className="text-center">
-        <h1 className="text-4xl font-medium tracking-tight text-paper">Voice Agent</h1>
-        <p className="mt-2 text-sm text-mist">Your AI voice assistant</p>
-      </header>
+    <div className="flex h-[100dvh] min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
+      {/* Stage: mic, status and input. Fixed pane — it never scrolls. */}
+      <section className="flex min-h-0 flex-col px-6 pb-10 pt-8 lg:w-[440px] lg:shrink-0 lg:border-r lg:border-line/70">
+        <header className="text-center">
+          <h1 className="text-3xl font-medium tracking-tight text-paper lg:text-4xl">Voice Agent</h1>
+          <p className="mt-1.5 text-sm text-mist">Your AI voice assistant</p>
+        </header>
 
-      <div className="flex flex-col items-center gap-6">
-        <div className="relative flex h-32 w-32 items-center justify-center">
-          {status === "listening" ? (
-            <>
-              <span className="animate-ring absolute inset-0 rounded-full border border-glow/50" />
-              <span className="animate-ring absolute inset-0 rounded-full border border-glow/30" style={{ animationDelay: "0.8s" }} />
-            </>
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-7 py-10">
+          <div className="relative flex h-40 w-40 items-center justify-center">
+            {status === "listening" || status === "speaking" ? (
+              <span aria-hidden="true" className="absolute inset-2 rounded-full bg-glow/15 blur-2xl" />
+            ) : null}
+            {status === "listening" ? (
+              <>
+                <span className="animate-ring absolute inset-0 rounded-full border border-glow/50" />
+                <span className="animate-ring absolute inset-0 rounded-full border border-glow/30" style={{ animationDelay: "0.8s" }} />
+              </>
+            ) : null}
+            <button
+              type="button"
+              onClick={onMicClick}
+              aria-label={micLabel}
+              title={micLabel}
+              className={`relative flex h-28 w-28 items-center justify-center rounded-full transition-all duration-300 ${orbClass}`}
+            >
+              <MicIcon />
+            </button>
+          </div>
+          <Status status={status} error={error} />
+          {status === "speaking" ? (
+            <p className="text-xs text-mist">Press Space or click the mic to interrupt</p>
           ) : null}
-          <button
-            type="button"
-            onClick={onMicClick}
-            aria-label={micLabel}
-            title={micLabel}
-            className={`relative flex h-24 w-24 items-center justify-center rounded-full transition-colors duration-300 ${orbClass}`}
-          >
-            <MicIcon />
-          </button>
+          {isDev && timings ? (
+            <p className="font-mono text-xs text-mist">
+              STT {fmt(timings.sttMs)} · AI first {fmt(timings.firstTokenMs)} · AI done {fmt(timings.completeMs)} · TTS {fmt(timings.ttsStartMs)}
+            </p>
+          ) : null}
         </div>
-        <Status status={status} error={error} />
-        {isDev && timings ? (
-          <p className="font-mono text-xs text-mist">
-            STT {fmt(timings.sttMs)} · AI first {fmt(timings.firstTokenMs)} · AI done {fmt(timings.completeMs)} · TTS {fmt(timings.ttsStartMs)}
-          </p>
+
+        <form onSubmit={submitText} className="flex gap-2">
+          <input
+            value={textDraft}
+            onChange={(event) => setTextDraft(event.target.value)}
+            placeholder="Or type a message…"
+            aria-label="Type a message"
+            className="flex-1 rounded-full border border-line bg-panel px-4 py-2.5 text-sm text-paper outline-none placeholder:text-mist/70 focus:border-glow/60"
+          />
+          <button
+            type="submit"
+            disabled={!textDraft.trim() || status === "thinking" || status === "speaking"}
+            className="rounded-full border border-line bg-panel px-4 py-2.5 text-sm text-paper transition-colors hover:border-glow/60 disabled:opacity-40"
+          >
+            Send
+          </button>
+        </form>
+        {!sttSupported ? (
+          <p className="mt-3 text-center text-xs text-mist">Speech recognition isn&apos;t available in this browser — use Chrome or Edge, or type above.</p>
         ) : null}
-      </div>
+      </section>
 
-      <Transcript messages={messages} interim={interim} draft={draft} />
-
-      <form onSubmit={submitText} className="flex gap-2">
-        <input
-          value={textDraft}
-          onChange={(event) => setTextDraft(event.target.value)}
-          placeholder="Or type a message…"
-          aria-label="Type a message"
-          className="flex-1 rounded-full border border-line bg-panel px-4 py-2.5 text-sm text-paper outline-none placeholder:text-mist/70 focus:border-glow/60"
-        />
-        <button
-          type="submit"
-          disabled={!textDraft.trim() || status === "thinking" || status === "speaking"}
-          className="rounded-full border border-line bg-panel px-4 py-2.5 text-sm text-paper transition-colors hover:border-glow/60 disabled:opacity-40"
-        >
-          Send
-        </button>
-      </form>
-
-      {!sttSupported ? (
-        <p className="text-center text-xs text-mist">Speech recognition isn&apos;t available in this browser — use Chrome or Edge, or type above.</p>
-      ) : null}
-    </main>
+      {/* Transcript: the conversation lives on the right. */}
+      <section className="flex min-h-0 flex-1 flex-col px-6 pb-10 pt-6 lg:px-10 lg:py-10">
+        <Transcript messages={messages} interim={interim} draft={draft} status={status} onClear={clearConversation} />
+      </section>
+    </div>
   );
 }
 
