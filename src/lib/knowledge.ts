@@ -1,11 +1,11 @@
-import ajai from "../../data/ajai.json";
+import data from "../../data/ajai.json";
 
-// The small, static knowledge base for the (fictional) company AJAI.
+// The small, static knowledge base for the demo company (data/ajai.json).
 // No vector search: the dataset is tiny, so we inline it into the system prompt.
-export const ajaiKnowledge = ajai;
+export const companyKnowledge = data;
 
 export function formatKnowledge(): string {
-  const k = ajaiKnowledge;
+  const k = companyKnowledge;
   return [
     `Company: ${k.company}`,
     `Description: ${k.description}`,

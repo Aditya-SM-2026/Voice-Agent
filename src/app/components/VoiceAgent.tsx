@@ -218,7 +218,7 @@ export default function VoiceAgent() {
     if (busyRef.current || !text.trim()) return;
     busyRef.current = true;
 
-    // Pause the microphone while thinking and speaking so AJAI's own voice
+    // Pause the microphone while thinking and speaking so the agent's own voice
     // is not transcribed back. Barge-in is done via the button / spacebar.
     recognitionRef.current?.stop();
 
@@ -374,7 +374,7 @@ export default function VoiceAgent() {
     setStatusSafe("idle");
   };
 
-  // Barge-in: while AJAI speaks, cut it off and go back to listening.
+  // Barge-in: while the agent speaks, cut it off and go back to listening.
   const interrupt = () => {
     if (statusRef.current !== "speaking") return;
     if (ttsAvailable()) window.speechSynthesis.cancel();
@@ -465,7 +465,7 @@ const fmt = (value: number | null) => (value === null ? "—" : `${value}ms`);
               onClick={onMicClick}
               aria-label={micLabel}
               title={micLabel}
-              className={`relative flex h-28 w-28 items-center justify-center rounded-full transition-all duration-300 ${orbClass}`}
+              className={`relative flex h-28 w-28 items-center justify-center  cursor-pointer rounded-full transition-all duration-300 ${orbClass}`}
             >
               <MicIcon />
             </button>

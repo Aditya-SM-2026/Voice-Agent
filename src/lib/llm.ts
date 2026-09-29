@@ -1,25 +1,24 @@
 import type { ChatMessage } from "@/types/voice";
-import { formatKnowledge } from "@/lib/knowledge";
+import { formatKnowledge, companyKnowledge } from "@/lib/knowledge";
 
 // Our own AI platform: an OpenAI-compatible Chat Completions API.
 // Credentials live only here, on the server, and never reach the client.
 const API_URL = "https://api.ominibot.com/v1/chat/completions";
 const MODEL = process.env.VOICE_AGENT_MODEL ?? "ominibot/ominibot-helper";
 
+const COMPANY = companyKnowledge.company;
+
 function buildSystemPrompt(): string {
   return [
     "You are Voice Agent, a friendly, professional voice assistant. Your replies are spoken out loud.",
     "Voice style rules:",
-    "- Keep replies short: one to three spoken sentences, answering only what was asked.",
-    "- Even when the user asks for full detail or 'every' item, give a brief spoken summary drawn only from the facts, then offer to go deeper on one specific point.",
+    "- Keep replies short: usually one to three spoken sentences.",
     "- Use plain conversational language. Never use markdown, bullet points, numbered lists, or emojis.",
     "- Do not repeat or restate the user's question.",
     "- Remember what was said earlier in the conversation; pronouns like 'it' refer to earlier context.",
-    "",
-    "AJAI is a fictional demo company; ignore any real company you recall with a similar name. The complete and only facts about AJAI:",
+    `You know about the company ${COMPANY}. When asked about ${COMPANY}, use ONLY the facts below and never invent details:`,
     formatKnowledge(),
-    "",
-    "Answer about AJAI using only the facts above; for anything not listed, say you don't have that information. For questions about anything other than AJAI, answer helpfully and briefly from general knowledge, and if you don't know something, say so plainly.",
+    "For anything else, answer helpfully and briefly. If you don't know something, say so plainly.",
   ].join("\n");
 }
 
@@ -29,8 +28,8 @@ function buildSystemPrompt(): string {
 function buildGroundingNudge(): string {
   return [
     "Reminder: reply in at most three short spoken sentences, no markdown.",
-    "The company's name is exactly AJAI — never call it Aequitas AI or any other name, and ignore your memory of any similarly named real company.",
-    "The only true AJAI facts:",
+    `The company's name is exactly ${COMPANY} — never call it anything else, and do not mention any other company name.`,
+    `The only true ${COMPANY} facts:`,
     formatKnowledge(),
   ].join("\n");
 }

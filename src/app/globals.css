@@ -42,7 +42,7 @@ body {
   animation: ring-expand 1.6s ease-out infinite;
 }
 
-/* Gentle breathing of the orb while AJAI speaks. */
+/* Gentle breathing of the orb while the agent speaks. */
 @keyframes orb-breathe {
   0%,
   100% {
